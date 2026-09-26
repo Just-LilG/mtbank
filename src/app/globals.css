@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f3efe6;
+  --card: #fffdf8;
+  --ink: #16130f;
+  --muted: #6e675e;
+  --line: #e3dace;
+  --red: #e10600;
+  --moss: #1c6b43;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-fraunces);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-red: var(--red);
+  --color-moss: var(--moss);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Opacity-only: a transform here, even translateY(0) at animation end,
+     would change the containing block for any position:fixed descendant
+     (modals, sheets) and silently break them across the whole app. */
+  @keyframes page-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  main,
+  body > div {
+    animation: page-in 0.28s ease-out both;
+  }
+
+  button,
+  a {
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--line) 25%, #ece4d4 37%, var(--line) 63%);
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--line);
+  }
+}
