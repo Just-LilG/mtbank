@@ -1,0 +1,324 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f6f6f8;
+  --card: #ffffff;
+  --panel: #16181f;
+  --ink: #14161c;
+  --muted: #6b7180;
+  --line: #e6e8ee;
+  --red: #e10600;
+  --solid: #e10600;
+  --danger: #d92d20;
+  --moss: #1c6b43;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-geist-sans);
+  --color-panel: var(--panel);
+  --color-solid: var(--solid);
+  --color-danger: var(--danger);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-red: var(--red);
+  --color-moss: var(--moss);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.app-bg {
+  background:
+    radial-gradient(90% 36% at 50% -8%, rgba(225, 6, 0, 0.1), transparent 70%),
+    var(--paper);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, #ff5f52 0%, #e10600 46%, #5a0a2a 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.num {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Opacity-only: a transform here, even translateY(0) at animation end,
+     would change the containing block for any position:fixed descendant
+     (modals, sheets) and silently break them across the whole app. */
+  @keyframes page-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  main,
+  body > div {
+    animation: page-in 0.28s ease-out both;
+  }
+
+  button,
+  a {
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--line) 25%, #eceef3 37%, var(--line) 63%);
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--line);
+  }
+}
+
+/* ---- Polish layer ---- */
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--red) 22%, transparent);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* Money lines up in columns and doesn't jitter when numbers change. */
+.font-display,
+td,
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Clear keyboard focus on everything that isn't a text field. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:not(:disabled),
+a[href] {
+  cursor: pointer;
+}
+
+/* Browser autofill keeps the app's paper tone instead of flashing blue. */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px var(--card) inset;
+  -webkit-text-fill-color: var(--ink);
+}
+
+input::placeholder {
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+
+/* Keeps the bottom nav clear of the iPhone home bar. */
+.safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+html {
+  background: var(--paper);
+}
+
+/* Soft depth on every white panel so they lift off the page. */
+:is(div, section, article, ul, li, a, button, aside).border-line.bg-card {
+  box-shadow:
+    0 1px 2px rgba(20, 22, 28, 0.04),
+    0 10px 24px -16px rgba(20, 22, 28, 0.14);
+}
+
+/* Gentle page entrance and tap feedback. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-in {
+  animation: page-in 0.28s ease-out both;
+}
+
+button,
+a {
+  transition:
+    transform 0.12s ease,
+    background-color 0.15s ease,
+    color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+button:not(:disabled):active,
+a.block:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-in {
+    animation: none;
+  }
+  button,
+  a {
+    transition: none;
+  }
+  button:not(:disabled):active,
+  a.block:active {
+    transform: none;
+  }
+}
+
+/* Sheets and the "sent" confirmation. */
+@keyframes sheet-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.sheet-panel {
+  animation: sheet-up 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.sheet-backdrop {
+  animation: fade-in 0.2s ease-out both;
+}
+
+.done-pop {
+  animation: pop 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.check-draw path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: draw 0.45s 0.2s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-panel,
+  .sheet-backdrop,
+  .done-pop {
+    animation: none;
+  }
+  .check-draw path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* One slow shimmer across a card when it first appears. */
+@keyframes card-sheen {
+  from {
+    background-position: 125% 0;
+  }
+  to {
+    background-position: -25% 0;
+  }
+}
+
+.card-sheen {
+  animation: card-sheen 2.4s ease-in-out 0.5s 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-sheen {
+    animation: none;
+  }
+}
+.mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
