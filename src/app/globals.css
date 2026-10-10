@@ -1,0 +1,495 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f6f6f8;
+  --card: #ffffff;
+  --panel: #16181f;
+  --ink: #14161c;
+  --muted: #6b7180;
+  --line: #e6e8ee;
+  --red: #e10600;
+  --solid: #e10600;
+  --danger: #d92d20;
+  --moss: #1c6b43;
+  --red-text: #e10600;
+  --skeleton: #eceef3;
+  --amber-bg: #fef3c7;
+  --amber-fg: #92400e;
+  --amber-soft: #fffbeb;
+  --amber-soft-fg: #78350f;
+  --sky-bg: #e0f2fe;
+  --sky-fg: #075985;
+  --violet-bg: #ede9fe;
+  --violet-fg: #5b21b6;
+}
+
+/* Dark theme: follows the phone unless the person picked Light in Profile. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0a0c12;
+    --card: #12151f;
+    --panel: #1b2030;
+    --ink: #eceef5;
+    --muted: #9aa2b6;
+    --line: #232838;
+    --danger: #ff7b72;
+    --moss: #3fd58a;
+    --red-text: #ff6b61;
+    --skeleton: #2a3043;
+    --amber-bg: rgba(251, 191, 36, 0.16);
+    --amber-fg: #fcd34d;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --amber-soft-fg: #fde68a;
+    --sky-bg: rgba(56, 189, 248, 0.16);
+    --sky-fg: #7dd3fc;
+    --violet-bg: rgba(167, 139, 250, 0.18);
+    --violet-fg: #c4b5fd;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0a0c12;
+  --card: #12151f;
+  --panel: #1b2030;
+  --ink: #eceef5;
+  --muted: #9aa2b6;
+  --line: #232838;
+  --danger: #ff7b72;
+  --moss: #3fd58a;
+  --red-text: #ff6b61;
+  --skeleton: #2a3043;
+  --amber-bg: rgba(251, 191, 36, 0.16);
+  --amber-fg: #fcd34d;
+  --amber-soft: rgba(251, 191, 36, 0.1);
+  --amber-soft-fg: #fde68a;
+  --sky-bg: rgba(56, 189, 248, 0.16);
+  --sky-fg: #7dd3fc;
+  --violet-bg: rgba(167, 139, 250, 0.18);
+  --violet-fg: #c4b5fd;
+}
+
+/* Colours that Tailwind hard-codes become theme-aware here. */
+.text-red {
+  color: var(--red-text);
+}
+.bg-amber-100 {
+  background-color: var(--amber-bg);
+}
+.text-amber-800 {
+  color: var(--amber-fg);
+}
+.bg-amber-50 {
+  background-color: var(--amber-soft);
+}
+.text-amber-900 {
+  color: var(--amber-soft-fg);
+}
+.bg-sky-100 {
+  background-color: var(--sky-bg);
+}
+.text-sky-800 {
+  color: var(--sky-fg);
+}
+.bg-violet-100 {
+  background-color: var(--violet-bg);
+}
+.text-violet-800 {
+  color: var(--violet-fg);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-geist-sans);
+  --color-panel: var(--panel);
+  --color-solid: var(--solid);
+  --color-danger: var(--danger);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-red: var(--red);
+  --color-moss: var(--moss);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.app-bg {
+  background:
+    radial-gradient(90% 36% at 50% -8%, rgba(225, 6, 0, 0.1), transparent 70%),
+    var(--paper);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, #ff5f52 0%, #e10600 46%, #5a0a2a 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.num {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Opacity-only: a transform here, even translateY(0) at animation end,
+     would change the containing block for any position:fixed descendant
+     (modals, sheets) and silently break them across the whole app. */
+  @keyframes page-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  main,
+  body > div {
+    animation: page-in 0.28s ease-out both;
+  }
+
+  button,
+  a {
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--line) 25%, var(--skeleton) 37%, var(--line) 63%);
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--line);
+  }
+}
+
+/* ---- Polish layer ---- */
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--red) 22%, transparent);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* Money lines up in columns and doesn't jitter when numbers change. */
+.font-display,
+td,
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Clear keyboard focus on everything that isn't a text field. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:not(:disabled),
+a[href] {
+  cursor: pointer;
+}
+
+/* Browser autofill keeps the app's paper tone instead of flashing blue. */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px var(--card) inset;
+  -webkit-text-fill-color: var(--ink);
+}
+
+input::placeholder {
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+
+/* Keeps the bottom nav clear of the iPhone home bar. */
+.safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+html {
+  background: var(--paper);
+}
+
+/* Soft depth on every white panel so they lift off the page. */
+:is(div, section, article, ul, li, a, button, aside).border-line.bg-card {
+  box-shadow:
+    0 1px 2px rgba(20, 22, 28, 0.04),
+    0 10px 24px -16px rgba(20, 22, 28, 0.14);
+}
+
+/* Tap feedback. Only the pressed element moves, so nothing that contains a
+   position:fixed sheet is ever transformed. */
+button:not(:disabled):active,
+a.block:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:not(:disabled):active,
+  a.block:active {
+    transform: none;
+  }
+}
+
+/* Sheets and the "sent" confirmation. */
+@keyframes sheet-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.sheet-panel {
+  animation: sheet-up 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.sheet-backdrop {
+  animation: fade-in 0.2s ease-out both;
+}
+
+.done-pop {
+  animation: pop 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.check-draw path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: draw 0.45s 0.2s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-panel,
+  .sheet-backdrop,
+  .done-pop {
+    animation: none;
+  }
+  .check-draw path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* One slow shimmer across a card when it first appears. */
+@keyframes card-sheen {
+  from {
+    background-position: 125% 0;
+  }
+  to {
+    background-position: -25% 0;
+  }
+}
+
+.card-sheen {
+  animation: card-sheen 2.4s ease-in-out 0.5s 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-sheen {
+    animation: none;
+  }
+}
+.mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+
+/* ---- Touch targets, toasts, printing ---- */
+
+/* Small text buttons keep their look but get a 44px-friendly hit area. */
+.hit {
+  position: relative;
+}
+.hit::after {
+  content: "";
+  position: absolute;
+  inset: -10px -8px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.toast-in {
+  animation: toast-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.sr-skip {
+  position: fixed;
+  left: 12px;
+  top: -80px;
+  z-index: 400;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 18px;
+  font-size: 14px;
+}
+.sr-skip:focus {
+  top: 12px;
+}
+
+/* Printing a statement or a receipt: show only the marked area. */
+.print-only {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  body[data-print] * {
+    visibility: hidden !important;
+  }
+  body[data-print] .print-area,
+  body[data-print] .print-area * {
+    visibility: visible !important;
+  }
+  body[data-print] .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: #000;
+    background: #fff;
+  }
+  body[data-print] .print-only {
+    display: block;
+  }
+  body[data-print] .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+  body[data-print] .print-area,
+  body[data-print] .print-area * {
+    color: #000 !important;
+    background: transparent !important;
+    border-color: #888 !important;
+    box-shadow: none !important;
+  }
+  body[data-print="receipt"] .print-area {
+    width: 80mm;
+  }
+}
+
+/* A short shake when the password is wrong. */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.shake {
+  animation: shake 0.38s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shake {
+    animation: none;
+  }
+}
+
+/* Hide balance: set by the eye on Home, kept on this phone. */
+.sensitive {
+  transition: filter 0.2s ease;
+}
+html[data-hide-balance="1"] .sensitive {
+  filter: blur(9px);
+  user-select: none;
+}
